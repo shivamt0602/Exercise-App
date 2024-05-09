@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
+import SearchBar from '../components/SearchBar'
 
 
 const Home = () => {
@@ -36,19 +37,10 @@ const Home = () => {
                     </Grid>
                 </section>
                 <section style={{ marginTop: "200px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Stack direction="column">
-                        <Typography variant='h3' sx={{display : "flex",justifyContent:"center"}}>
-                            Awesome exercises 
-                            <br/>
-                            you should know
-                        </Typography>
-                        <Box sx={{ display: "flex", justifyContent: "center" }}>
-                            <Stack direction="row" spacing={1} padding="50px">
-                                <TextField id="outlined-basic" variant="outlined" placeholder='search for exercises' sx={{ width: '500px' }} />
-                                <Button variant="contained">Search</Button>
-                            </Stack>
-                        </Box>
-                    </Stack>
+                   <SearchBar />
+                </section>
+                <section style={{marginTop : "30px",backgroundColor:"yellow"}}>
+                    <p>Hello there</p>
                 </section>
             </Container>
         </>
