@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import { useEffect, useState } from 'react';
 import SearchBar from '../components/SearchBar'
 import Bodyparts from '../components/Bodyparts';
+import getExercices from '../Assets/fetchbodyData';
 
 const Home = () => {
 
@@ -18,7 +19,7 @@ const Home = () => {
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': 'a37dd5b70amsh7ea8a1f5269a327p16d6cdjsnaa71a6469b77',
+                'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
                 'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
             }
         };
@@ -31,8 +32,10 @@ const Home = () => {
             Setitems(result)
         } catch (error) {
             console.error(error);
+            Setitems(error);
         }
     }
+
 
     useEffect(() => {
         getExercices()
@@ -68,7 +71,7 @@ const Home = () => {
                     <SearchBar />
                 </section>
                 <section>
-                    <Bodyparts regions = {items}/>
+                    <Bodyparts regions={items} />
                 </section>
             </Container>
         </>

@@ -28,23 +28,27 @@ const Bodyparts = (props) => {
         }
     };
 
+    const handleclick = ()=>{
+        console.log("card clicked")
+    }
+
     return (
         <Box>
             <Carousel responsive={responsive}>
                 {props.regions.map((item, index) => (
-                    <div key={index}>
-                        <Card sx={{ minWidth: 200, backgroundColor: "#378CE7", margin: "5px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                            <CardContent>
-                                <FitnessCenterIcon sx={{ height: "100px", width: "100px", color: "white" }} />
-                                <Typography variant="h4" color="white" gutterBottom>
-                                    {item}
-                                </Typography>
-                            </CardContent>
-                            <CardActions>
-                                <Button size="small">Learn More</Button>
-                            </CardActions>
-                        </Card>
-                    </div>
+                        <div key={index}>
+                            <Card sx={{ minWidth: 200, backgroundColor: "#378CE7", margin: "5px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                                <CardContent onClick={handleclick}>
+                                    <FitnessCenterIcon sx={{ height: "100px", width: "100px", color: "white" }} />
+                                    <Typography variant="h4" color="white" gutterBottom>
+                                        {item}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Button size="small">Learn More</Button>
+                                </CardActions>
+                            </Card>
+                        </div>
                 ))}
             </Carousel>
         </Box>
