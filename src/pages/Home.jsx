@@ -68,7 +68,7 @@ const Home = () => {
                     <SearchBar />
                 </section>
                 <section>
-                    <Bodyparts />
+                    <Bodyparts regions = {items}/>
                 </section>
             </Container>
         </>
