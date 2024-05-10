@@ -1,42 +1,11 @@
-import fitnessimg from '../Assets/fitnessimg.jpg';
-import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import { useEffect, useState } from 'react';
+import "react-multi-carousel/lib/styles.css";
+import Box from '@mui/material/Box';
 
 const SearchBar = () => {
-
-    const [items,Setitems] = useState([])
-
-    const getExercices = async () => {
-       
-        const url = 'https://exercisedb.p.rapidapi.com/exercises/bodyPartList';
-        const options = {
-            method: 'GET',
-            headers: {
-                'X-RapidAPI-Key': 'a37dd5b70amsh7ea8a1f5269a327p16d6cdjsnaa71a6469b77',
-                'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
-            }
-        };
-
-        try {
-            const response = await fetch(url, options);
-            const result = await response.json();
-            console.log(result)
-            console.log(result.length);
-            Setitems(result)
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    useEffect(() => {
-        getExercices()
-    }, []);
 
     return (
         <>
