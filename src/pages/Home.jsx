@@ -13,6 +13,30 @@ const Home = () => {
     const [items, Setitems] = useState([])
     const [search, Setsearch] = useState("")
 
+    const [identifier, setIdentifier] = useState("")
+    const [exercisename, setExerciseName] = useState("")
+
+    const LoadExercises = async () => {
+
+        const url = `https://exercisedb.p.rapidapi.com/exercises/${identifier}/${exercisename}?limit=100`;
+        console.log(url)
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': 'a37dd5b70amsh7ea8a1f5269a327p16d6cdjsnaa71a6469b77',
+                'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
+            }
+        };
+
+        try {
+            const response = await fetch(url, options);
+            const result = await response.json();
+            console.log(result)
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     const handleChange = (event) => {
         const new_val = event.target.value;
@@ -21,13 +45,12 @@ const Home = () => {
 
     const fetchVariousExercises = async () => {
 
-        const url = 'https://exercisedb.p.rapidapi.com/exercises/equipment/leverage machine?limit=10';
 
-        
+        const url = 'https://exercisedb.p.rapidapi.com/exercises?limit=100';
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
+                'X-RapidAPI-Key': 'a37dd5b70amsh7ea8a1f5269a327p16d6cdjsnaa71a6469b77',
                 'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
             }
         };
@@ -35,11 +58,34 @@ const Home = () => {
         try {
             const response = await fetch(url, options);
             const result = await response.json();
-            console.log(result);
+
+            const reqList = result.filter((data) => {
+                return (data.name.includes(search) || data.bodyPart.includes(search) || data.equipment.includes(search) || data.target.includes(search))
+            })
+
+            const reqObj = reqList[0]; // take out single object
+
+            console.log(reqObj)
+
+            for (let key in reqObj) {
+                const value = reqObj[key]
+                if (value === search) {
+                    console.log(key)
+                    console.log(value)
+                    console.log(identifier)
+                    console.log(exercisename)
+                    setExerciseName(value)
+                    setIdentifier(key)
+                    break;
+                }
+            }
+
+            LoadExercises()
+
         } catch (error) {
             console.error(error);
         }
-        
+
     }
 
     const handleClick = () => {
