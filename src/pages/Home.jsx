@@ -7,11 +7,44 @@ import Button from '@mui/material/Button';
 import { useEffect, useState } from 'react';
 import SearchBar from '../components/SearchBar'
 import Bodyparts from '../components/Bodyparts';
-import getExercices from '../Assets/fetchbodyData';
 
 const Home = () => {
 
     const [items, Setitems] = useState([])
+    const [search, Setsearch] = useState("")
+
+
+    const handleChange = (event) => {
+        const new_val = event.target.value;
+        Setsearch(new_val)
+    }
+
+    const fetchVariousExercises = async () => {
+
+        const url = 'https://exercisedb.p.rapidapi.com/exercises/equipment/leverage machine?limit=10';
+
+        
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
+                'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
+            }
+        };
+
+        try {
+            const response = await fetch(url, options);
+            const result = await response.json();
+            console.log(result);
+        } catch (error) {
+            console.error(error);
+        }
+        
+    }
+
+    const handleClick = () => {
+        fetchVariousExercises()
+    }
 
     const getExercices = async () => {
 
@@ -68,7 +101,7 @@ const Home = () => {
                     </Grid>
                 </section>
                 <section style={{ marginTop: "200px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <SearchBar />
+                    <SearchBar quest={search} change={handleChange} click={handleClick} />
                 </section>
                 <section>
                     <Bodyparts regions={items} />
