@@ -12,9 +12,10 @@ const Home = () => {
 
     const [items, Setitems] = useState([])
     const [search, Setsearch] = useState("")
-
     const [identifier, setIdentifier] = useState("")
     const [exercisename, setExerciseName] = useState("")
+    
+
 
     const LoadExercises = async () => {
 
@@ -38,10 +39,14 @@ const Home = () => {
         }
     }
 
+
+
     const handleChange = (event) => {
         const new_val = event.target.value;
         Setsearch(new_val)
     }
+
+
 
     const fetchVariousExercises = async () => {
 
@@ -50,7 +55,7 @@ const Home = () => {
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': 'a37dd5b70amsh7ea8a1f5269a327p16d6cdjsnaa71a6469b77',
+                'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
                 'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
             }
         };
@@ -63,24 +68,21 @@ const Home = () => {
                 return (data.name.includes(search) || data.bodyPart.includes(search) || data.equipment.includes(search) || data.target.includes(search))
             })
 
-            const reqObj = reqList[0]; // take out single object
 
-            console.log(reqObj)
-
+            const reqObj = reqList[0];
+            console.log(reqObj);
+            
             for (let key in reqObj) {
                 const value = reqObj[key]
-                if (value === search) {
+                if(value === search){
                     console.log(key)
                     console.log(value)
-                    console.log(identifier)
-                    console.log(exercisename)
-                    setExerciseName(value)
                     setIdentifier(key)
-                    break;
+                    setExerciseName(value)
                 }
             }
+        
 
-            LoadExercises()
 
         } catch (error) {
             console.error(error);
@@ -88,9 +90,17 @@ const Home = () => {
 
     }
 
-    const handleClick = () => {
-        fetchVariousExercises()
+
+
+    const handleClick = async() => {
+
+        await fetchVariousExercises()
+
+        await LoadExercises()
+
     }
+
+   
 
     const getExercices = async () => {
 
@@ -117,7 +127,7 @@ const Home = () => {
 
 
     useEffect(() => {
-        getExercices()
+        console.log(getExercices())
     }, []);
 
 
