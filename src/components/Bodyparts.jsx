@@ -35,7 +35,7 @@ const Bodyparts = (props) => {
     return (
         <Box>
             <Carousel responsive={responsive}>
-                {props.regions.map((item, index) => (
+                {Array.isArray(props.regions) && props.regions.map((item, index) => (
                         <div key={index}>
                             <Card sx={{ minWidth: 200, backgroundColor: "#378CE7", margin: "5px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                                 <CardContent onClick={handleclick}>

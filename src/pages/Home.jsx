@@ -7,13 +7,13 @@ import Button from '@mui/material/Button';
 import { useEffect, useState } from 'react';
 import SearchBar from '../components/SearchBar'
 import Bodyparts from '../components/Bodyparts';
+import ListCards from '../components/ListCards';
 
 const Home = () => {
 
     const [items, Setitems] = useState([])
     const [search, Setsearch] = useState("")
-
-
+    const [exercises, setExercises] = useState([])
 
 
     const LoadExercises = async () => {
@@ -26,7 +26,7 @@ const Home = () => {
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': 'a37dd5b70amsh7ea8a1f5269a327p16d6cdjsnaa71a6469b77',
+                'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
                 'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
             }
         };
@@ -34,6 +34,7 @@ const Home = () => {
         try {
             const response = await fetch(url, options);
             const result = await response.json();
+            setExercises(result)
             console.log(result)
             Setsearch("")
 
@@ -120,6 +121,27 @@ const Home = () => {
                     <Bodyparts regions={items} />
                 </section>
             </Container>
+            <section style={{ marginTop: "100px" }}>
+                <Container maxWidth="800px">
+                    <Box sx={{ margin: "5px" }}>
+                        <Grid container spacing={4}>
+                            {
+                                exercises.map((exercise) => {
+                                    return (
+                                        <>
+                                            <ListCards key={exercise.id}
+                                                target={exercise.target}
+                                                equipment={exercise.equipment}
+                                                gifUrl={exercise.gifUrl}
+                                                name={exercise.name} />
+                                        </>
+                                    )
+                                })
+                            }
+                        </Grid>
+                    </Box>
+                </Container>
+            </section>
         </>
     );
 }
