@@ -8,19 +8,39 @@ import { useEffect, useState } from 'react';
 import SearchBar from '../components/SearchBar'
 import Bodyparts from '../components/Bodyparts';
 import ListCards from '../components/ListCards';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 const Home = () => {
 
     const [items, Setitems] = useState([])
     const [search, Setsearch] = useState("")
     const [exercises, setExercises] = useState([])
+    const [text, setText] = useState("")
+    const[currentPage,setCurrentPage] = useState(1)
 
+    // const arr = []
+
+    // for (let i = 0; i < 21; i++) {
+    //     arr[i] = i + 1;
+    // }
+
+    const ExercisePerPage = 9;
+
+    const indexOfLastExercise = currentPage*ExercisePerPage;
+    const indexOfFirstExercise = indexOfLastExercise - ExercisePerPage;
+
+    const currentExercises = exercises.slice(indexOfFirstExercise,indexOfLastExercise);
+
+    const paginate = (event,value)=>{
+        setCurrentPage(value)
+        // window.scrollTo({top:"-5px",behavior:"smooth"})
+    }
 
     const LoadExercises = async () => {
 
+        setText("Showing Results...")
         console.log("inside the loadexercises function")
-
-
         const url = `https://exercisedb.p.rapidapi.com/exercises/name/${search}?limit=100`;
         console.log(url)
         const options = {
@@ -47,7 +67,6 @@ const Home = () => {
 
     const handleChange = (event) => {
         const new_val = event.target.value.toLowerCase();
-        // new_val = new_val.toLowerCase();
         Setsearch(new_val)
     }
 
@@ -91,8 +110,6 @@ const Home = () => {
 
     return (
         <>
-            {/* <h1>Home</h1>
-            <img src={fitnessimg} alt="Fitness Image" style={{ width: '200px', height: '150px' }}/> */}
             <Container maxWidth="1080px">
                 <section>
                     <Grid container>
@@ -120,13 +137,14 @@ const Home = () => {
                 <section>
                     <Bodyparts regions={items} />
                 </section>
-            </Container>
-            <section style={{ marginTop: "100px" }}>
-                <Container maxWidth="800px">
+                <section style={{ marginTop: "100px" }}>
+                    <Typography variant='h4' gutterBottom>
+                        {text}
+                    </Typography>
                     <Box sx={{ margin: "5px" }}>
                         <Grid container spacing={4}>
                             {
-                                exercises.map((exercise) => {
+                                currentExercises.map((exercise) => {
                                     return (
                                         <>
                                             <ListCards key={exercise.id}
@@ -134,14 +152,28 @@ const Home = () => {
                                                 equipment={exercise.equipment}
                                                 gifUrl={exercise.gifUrl}
                                                 name={exercise.name} />
+
+                                            {/* <ListCards key={index} number={index}/> */}
                                         </>
                                     )
                                 })
                             }
                         </Grid>
                     </Box>
-                </Container>
-            </section>
+                    <Stack spacing={2} justifyContent="center" alignItems="center" marginTop="50px">
+                        {exercises.length > 9 && (
+                            <Pagination 
+                            color="primary"
+                            defaultPage={1}
+                            count={Math.ceil(exercises.length/ExercisePerPage)}
+                            page={currentPage}
+                            onChange={paginate}
+                            size='large'
+                            />
+                        )}
+                    </Stack>
+                </section>
+            </Container>
         </>
     );
 }
