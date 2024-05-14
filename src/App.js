@@ -11,7 +11,7 @@ function App() {
       <main style={{ padding: "70px",marginTop:"80px"}}> {/* Adjust padding as needed */}
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/Exercise" element={<ExerciseDetail />} />
+          <Route exact path="/exercise/:id" element={<ExerciseDetail />} />
         </Routes>
       </main>
       <Footer />

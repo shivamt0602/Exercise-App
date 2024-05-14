@@ -18,7 +18,7 @@ const SearchBar = (props) => {
                 <Box sx={{ display: "flex", justifyContent: "center" }}>
                     <Stack direction="row" spacing={1} padding="50px">
                         <TextField id="outlined-basic" variant="outlined" placeholder='search for exercises' sx={{ width: '500px' }} onChange={props.change} value={props.quest}/>
-                        <Button variant="contained" onClick={props.click}>Search</Button>
+                        <Button variant="contained">Search</Button>
                     </Stack>
                 </Box>
             </Stack>

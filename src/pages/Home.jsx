@@ -19,18 +19,18 @@ const Home = () => {
     const [text, setText] = useState("")
     const[currentPage,setCurrentPage] = useState(1)
 
-    // const arr = []
+    const arr = []
 
-    // for (let i = 0; i < 21; i++) {
-    //     arr[i] = i + 1;
-    // }
+    for (let i = 0; i < 21; i++) {
+        arr[i] = i + 1;
+    }
 
     const ExercisePerPage = 9;
 
     const indexOfLastExercise = currentPage*ExercisePerPage;
     const indexOfFirstExercise = indexOfLastExercise - ExercisePerPage;
 
-    const currentExercises = exercises.slice(indexOfFirstExercise,indexOfLastExercise);
+    const currentExercises = arr.slice(indexOfFirstExercise,indexOfLastExercise);
 
     const paginate = (event,value)=>{
         setCurrentPage(value)
@@ -144,16 +144,16 @@ const Home = () => {
                     <Box sx={{ margin: "5px" }}>
                         <Grid container spacing={4}>
                             {
-                                currentExercises.map((exercise) => {
+                                currentExercises.map((number,index) => {
                                     return (
                                         <>
-                                            <ListCards key={exercise.id}
+                                            {/* <ListCards key={exercise.id}
                                                 target={exercise.target}
                                                 equipment={exercise.equipment}
                                                 gifUrl={exercise.gifUrl}
-                                                name={exercise.name} />
+                                                name={exercise.name} /> */}
 
-                                            {/* <ListCards key={index} number={index}/> */}
+                                            <ListCards key={index} number={index}/>
                                         </>
                                     )
                                 })
@@ -161,11 +161,11 @@ const Home = () => {
                         </Grid>
                     </Box>
                     <Stack spacing={2} justifyContent="center" alignItems="center" marginTop="50px">
-                        {exercises.length > 9 && (
+                        {arr.length > 9 && (
                             <Pagination 
                             color="primary"
                             defaultPage={1}
-                            count={Math.ceil(exercises.length/ExercisePerPage)}
+                            count={Math.ceil(arr.length/ExercisePerPage)}
                             page={currentPage}
                             onChange={paginate}
                             size='large'
