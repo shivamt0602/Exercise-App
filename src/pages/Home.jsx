@@ -19,18 +19,18 @@ const Home = () => {
     const [text, setText] = useState("")
     const [currentPage, setCurrentPage] = useState(1)
 
-    const arr = []
+    // const arr = []
 
-    for (let i = 0; i < 21; i++) {
-        arr[i] = i + 1;
-    }
+    // for (let i = 0; i < 21; i++) {
+    //     arr[i] = i + 1;
+    // }
 
     const ExercisePerPage = 9;
 
     const indexOfLastExercise = currentPage * ExercisePerPage;
     const indexOfFirstExercise = indexOfLastExercise - ExercisePerPage;
 
-    const currentExercises = arr.slice(indexOfFirstExercise, indexOfLastExercise);
+    const currentExercises = exercises.slice(indexOfFirstExercise, indexOfLastExercise);
 
     const paginate = (event, value) => {
         setCurrentPage(value)
@@ -55,7 +55,6 @@ const Home = () => {
             const result = await response.json();
             setExercises(result)
             console.log(result)
-            Setsearch("")
 
         } catch (error) {
             console.error(error);
@@ -138,7 +137,7 @@ const Home = () => {
                 </section>
                 <section style={{ marginTop: "100px" }}>
                     {
-                        arr.length >= 1 && (
+                        exercises.length >= 1 && (
                             <>
                                 <Typography variant='h4' gutterBottom>
                                     {text}
@@ -146,17 +145,17 @@ const Home = () => {
                                 <Box sx={{ margin: "5px" }}>
                                     <Grid container spacing={4}>
                                         {
-                                            currentExercises.map((element, index) => {
+                                            currentExercises.map((exercise,index) => {
                                                 return (
                                                     <>
-                                                        {/* <ListCards key={index}
+                                                        <ListCards key={index}
                                                             target={exercise.target}
                                                             equipment={exercise.equipment}
                                                             gifUrl={exercise.gifUrl}
                                                             name={exercise.name}
-                                                            identity={exercise.id} /> */}
+                                                            identity={exercise.id} />
 
-                                                        <ListCards key={index} number={element}/>
+                                                        {/* <ListCards key={index} number={element}/> */}
                                                     </>
                                                 )
                                             })
@@ -167,11 +166,11 @@ const Home = () => {
                         )
                     }
                     <Stack spacing={2} justifyContent="center" alignItems="center" marginTop="50px">
-                        {arr.length > 9 && (
+                        {exercises.length > 9 && (
                             <Pagination
                                 color="primary"
                                 defaultPage={1}
-                                count={Math.ceil(arr.length / ExercisePerPage)}
+                                count={Math.ceil(exercises.length / ExercisePerPage)}
                                 page={currentPage}
                                 onChange={paginate}
                                 size='large'
