@@ -16,8 +16,7 @@ const ListCards = (props) => {
                     {/* <img src={props.gifUrl} alt={props.name} style={{ maxWidth: '100%', maxHeight: '150px', marginTop: '10px' }} /> */}
                 </CardContent>
                 <CardActions sx={{ marginTop: '15px', padding: '20px' }}>
-                    <Typography variant='h7'>target</Typography>
-                    <Typography variant='h7'>equipment</Typography>
+                    <Typography variant='h7'>name</Typography>
                     <Button variant='contained'>Instructions</Button>
                 </CardActions>
             </Card>

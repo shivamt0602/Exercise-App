@@ -17,7 +17,7 @@ const Home = () => {
     const [search, Setsearch] = useState("")
     const [exercises, setExercises] = useState([])
     const [text, setText] = useState("")
-    const[currentPage,setCurrentPage] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1)
 
     const arr = []
 
@@ -27,14 +27,13 @@ const Home = () => {
 
     const ExercisePerPage = 9;
 
-    const indexOfLastExercise = currentPage*ExercisePerPage;
+    const indexOfLastExercise = currentPage * ExercisePerPage;
     const indexOfFirstExercise = indexOfLastExercise - ExercisePerPage;
 
-    const currentExercises = arr.slice(indexOfFirstExercise,indexOfLastExercise);
+    const currentExercises = arr.slice(indexOfFirstExercise, indexOfLastExercise);
 
-    const paginate = (event,value)=>{
+    const paginate = (event, value) => {
         setCurrentPage(value)
-        // window.scrollTo({top:"-5px",behavior:"smooth"})
     }
 
     const LoadExercises = async () => {
@@ -138,37 +137,44 @@ const Home = () => {
                     <Bodyparts regions={items} />
                 </section>
                 <section style={{ marginTop: "100px" }}>
-                    <Typography variant='h4' gutterBottom>
-                        {text}
-                    </Typography>
-                    <Box sx={{ margin: "5px" }}>
-                        <Grid container spacing={4}>
-                            {
-                                currentExercises.map((number,index) => {
-                                    return (
-                                        <>
-                                            {/* <ListCards key={exercise.id}
-                                                target={exercise.target}
-                                                equipment={exercise.equipment}
-                                                gifUrl={exercise.gifUrl}
-                                                name={exercise.name} /> */}
+                    {
+                        arr.length >= 1 && (
+                            <>
+                                <Typography variant='h4' gutterBottom>
+                                    {text}
+                                </Typography>
+                                <Box sx={{ margin: "5px" }}>
+                                    <Grid container spacing={4}>
+                                        {
+                                            currentExercises.map((element, index) => {
+                                                return (
+                                                    <>
+                                                        {/* <ListCards key={index}
+                                                            target={exercise.target}
+                                                            equipment={exercise.equipment}
+                                                            gifUrl={exercise.gifUrl}
+                                                            name={exercise.name}
+                                                            identity={exercise.id} /> */}
 
-                                            <ListCards key={index} number={index}/>
-                                        </>
-                                    )
-                                })
-                            }
-                        </Grid>
-                    </Box>
+                                                        <ListCards key={index} number={element}/>
+                                                    </>
+                                                )
+                                            })
+                                        }
+                                    </Grid>
+                                </Box>
+                            </>
+                        )
+                    }
                     <Stack spacing={2} justifyContent="center" alignItems="center" marginTop="50px">
                         {arr.length > 9 && (
-                            <Pagination 
-                            color="primary"
-                            defaultPage={1}
-                            count={Math.ceil(arr.length/ExercisePerPage)}
-                            page={currentPage}
-                            onChange={paginate}
-                            size='large'
+                            <Pagination
+                                color="primary"
+                                defaultPage={1}
+                                count={Math.ceil(arr.length / ExercisePerPage)}
+                                page={currentPage}
+                                onChange={paginate}
+                                size='large'
                             />
                         )}
                     </Stack>
