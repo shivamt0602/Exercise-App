@@ -1,5 +1,5 @@
 import { Container, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useActionData, useParams } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import Box from "@mui/material/Box";
 import { useEffect } from "react";
@@ -12,8 +12,11 @@ const ExerciseDetail = () => {
     const { id } = useParams()
     const [exercisebyid, setExerciseById] = useState({})
     const [arr, setArr] = useState([])
+    const [YtArr, setYtArr] = useState([])
+    const [YTtext, setYTText] = useState("")
 
     useEffect(() => {
+
         const getDataById = async () => {
             const url = `https://exercisedb.p.rapidapi.com/exercises/exercise/${id}`;
             const options = {
@@ -35,7 +38,29 @@ const ExerciseDetail = () => {
             }
         }
 
+        const getYTData = async () => {
+            const url = `https://youtube-search-and-download.p.rapidapi.com/search?query=${exercisebyid.name}`;
+            const options = {
+                method: 'GET',
+                headers: {
+                    'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
+                    'X-RapidAPI-Host': 'youtube-search-and-download.p.rapidapi.com'
+                }
+            };
+
+            try {
+                const response = await fetch(url, options);
+                const result = await response.json();
+                console.log(result);
+                setYtArr(result.contents);
+                setYTText("Look for Videos here")
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
         getDataById()
+        getYTData()
     }, [id])
 
     return (
@@ -75,6 +100,55 @@ const ExerciseDetail = () => {
                         </Grid>
                     </Grid>
                 </Box>
+                {
+                    YtArr.length >= 1 && (
+                        <Box marginTop="100px">
+                            <Typography sx={{ marginBottom: "50px" }} variant="h3">
+                                {YTtext}
+                            </Typography>
+                            <Grid container>
+                                <Grid item md={4}>
+                                    <a href="https://www.youtube.com/watch?v=5afQUU8VllM&ab_channel=LiveLeanTVDailyExercises" style={{textDecoration: 'none'}}>
+                                        <Card sx={{ marginBottom: "30px" }}>
+                                            <CardContent>
+                                                <Typography variant="h3" textAlign="center" marginBottom="50px">
+                                                    Name
+                                                </Typography>
+                                                <Typography variant="h4">
+                                                    Instructions
+                                                </Typography>
+                                            </CardContent>
+                                        </Card>
+                                    </a>
+                                </Grid>
+                                <Grid item md={4}>
+                                    <Card sx={{ marginBottom: "30px" }}>
+                                        <CardContent>
+                                            <Typography variant="h3" textAlign="center" marginBottom="50px">
+                                                Name
+                                            </Typography>
+                                            <Typography variant="h4">
+                                                Instructions
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                                <Grid item md={4}>
+                                    <Card sx={{ marginBottom: "30px" }}>
+                                        <CardContent>
+                                            <Typography variant="h3" textAlign="center" marginBottom="50px">
+                                                Name
+                                            </Typography>
+                                            <Typography variant="h4">
+                                                Instructions
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    )
+                }
             </Container>
         </>
     );
