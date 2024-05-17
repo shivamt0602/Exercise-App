@@ -38,7 +38,6 @@ const Home = () => {
 
     const LoadExercises = async () => {
 
-        setText("Showing Results...")
         console.log("inside the loadexercises function")
         const url = `https://exercisedb.p.rapidapi.com/exercises/name/${search}?limit=100`;
         console.log(url)
@@ -54,13 +53,10 @@ const Home = () => {
             const response = await fetch(url, options);
             const result = await response.json();
             setExercises(result)
-            console.log(result)
-
         } catch (error) {
             console.error(error);
         }
     }
-
 
 
     const handleChange = (event) => {
@@ -74,7 +70,6 @@ const Home = () => {
         await LoadExercises()
 
     }
-
 
 
     const getExercices = async () => {
@@ -133,7 +128,7 @@ const Home = () => {
                     <SearchBar quest={search} change={handleChange} click={handleClick} />
                 </section>
                 <section>
-                    <Bodyparts regions={items} />
+                    <Bodyparts regions={items} selectedItem = {exercises} setSelectedItem={setExercises}/>
                 </section>
                 <section style={{ marginTop: "100px" }}>
                     {
@@ -145,7 +140,7 @@ const Home = () => {
                                 <Box sx={{ margin: "5px" }}>
                                     <Grid container spacing={4}>
                                         {
-                                            currentExercises.map((exercise,index) => {
+                                            currentExercises.map((exercise, index) => {
                                                 return (
                                                     <>
                                                         <ListCards key={index}

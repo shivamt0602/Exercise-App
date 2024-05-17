@@ -25,7 +25,7 @@ const ExerciseDetail = () => {
                     'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
                 }
             };
-    
+
             try {
                 const response = await fetch(url, options);
                 const result = await response.json();
@@ -124,9 +124,14 @@ const ExerciseDetail = () => {
                         {YtArr.map((element, index) => (
                             <Grid item md={4} key={index}>
                                 <a href={element.content} style={{ textDecoration: 'none' }}>
-                                    <Card>
+                                    <Card sx={{
+                                        transitionDuration: '.5s', '&:hover': {
+                                            transform: 'translateY(-5px)',
+                                            cursor: 'pointer'
+                                        },
+                                    }}>
                                         <CardContent>
-                                            <img src={element.images.large} alt="YouTube thumbnail"  style={{ width: '100%', height: '500px', objectFit: 'cover' }} />
+                                            <img src={element.images.large} alt="YouTube thumbnail" style={{ width: '100%', height: '500px', objectFit: 'cover' }} />
                                         </CardContent>
                                     </Card>
                                 </a>

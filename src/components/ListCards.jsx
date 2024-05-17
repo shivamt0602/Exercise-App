@@ -11,7 +11,12 @@ const ListCards = (props) => {
     return (
         <Grid item xs={12} sm={6} md={4} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '332px', width: '700.66px' }}>
             <Link to={`/exercise/${props.identity}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <Card sx={{ height: '300px', width: '400px', textAlign: 'center', backgroundColor: '#378CE7', color: 'white', margin: '150.33px' }}>
+                <Card sx={{
+                    height: '300px', width: '400px', textAlign: 'center', backgroundColor: '#378CE7', color: 'white', margin: '150.33px', transitionDuration: '.5s', '&:hover': {
+                        transform: 'translateY(-5px)',
+                        cursor: 'pointer',
+                    },
+                }}>
                     <CardContent>
                         <img src={props.gifUrl} alt={props.name} style={{ maxWidth: '100%', maxHeight: '150px', marginTop: '10px' }} />
                     </CardContent>

@@ -9,6 +9,31 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 const Bodyparts = (props) => {
+
+    const fetchBodypartExerciseData = async (bodypart) => {
+        const url = `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodypart}?limit=30`;
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
+                'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
+            }
+        };
+
+        try {
+            const response = await fetch(url, options);
+            const result = await response.json();
+            console.log(result);
+            props.setSelectedItem(result)
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const handleCarouselClick = (bodypart) => {
+        fetchBodypartExerciseData(bodypart)
+    }
+
     const responsive = {
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 3000 },
@@ -28,27 +53,31 @@ const Bodyparts = (props) => {
         }
     };
 
-    const handleclick = ()=>{
-        console.log("card clicked")
-    }
 
     return (
         <Box>
             <Carousel responsive={responsive}>
                 {Array.isArray(props.regions) && props.regions.map((item, index) => (
-                        <div key={index}>
-                            <Card sx={{ minWidth: 200, backgroundColor: "#378CE7", margin: "5px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                                <CardContent onClick={handleclick}>
-                                    <FitnessCenterIcon sx={{ height: "100px", width: "100px", color: "white" }} />
-                                    <Typography variant="h4" color="white" gutterBottom>
-                                        {item}
-                                    </Typography>
-                                </CardContent>
-                                <CardActions>
-                                    <Button size="small">Learn More</Button>
-                                </CardActions>
-                            </Card>
-                        </div>
+                    <div key={index}>
+                        <Card sx={{
+                            minWidth: 200, backgroundColor: "#378CE7", margin: "5px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", cursor: "pointer",
+                            transitionDuration: '.5s',
+                            '&:hover': {
+                                transform: 'translateY(-5px)',
+                                cursor: 'pointer',
+                            },
+                        }} onClick={() => handleCarouselClick(item)}>
+                            <CardContent>
+                                <FitnessCenterIcon sx={{ height: "100px", width: "100px", color: "white" }} />
+                                <Typography variant="h4" color="white" gutterBottom>
+                                    {item}
+                                </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <Button size="small" sx={{color:'white'}}>click to learn more</Button>
+                            </CardActions>
+                        </Card>
+                    </div>
                 ))}
             </Carousel>
         </Box>
