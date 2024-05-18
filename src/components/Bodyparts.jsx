@@ -7,10 +7,14 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { HashLink as Link } from 'react-router-hash-link';
+import { useState } from 'react';
 
 const Bodyparts = (props) => {
 
+    
     const fetchBodypartExerciseData = async (bodypart) => {
+        props.setHeadingOfCards("Loading exercises...")
         const url = `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodypart}?limit=30`;
         const options = {
             method: 'GET',
@@ -24,6 +28,9 @@ const Bodyparts = (props) => {
             const response = await fetch(url, options);
             const result = await response.json();
             console.log(result);
+            if(!result){
+                props.setHeadingOfCards("No results")
+            }
             props.setSelectedItem(result)
         } catch (error) {
             console.error(error);
@@ -55,32 +62,37 @@ const Bodyparts = (props) => {
 
 
     return (
-        <Box>
-            <Carousel responsive={responsive}>
-                {Array.isArray(props.regions) && props.regions.map((item, index) => (
-                    <div key={index}>
-                        <Card sx={{
-                            minWidth: 200, backgroundColor: "#378CE7", margin: "5px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", cursor: "pointer",
-                            transitionDuration: '.5s',
-                            '&:hover': {
-                                transform: 'translateY(-5px)',
-                                cursor: 'pointer',
-                            },
-                        }} onClick={() => handleCarouselClick(item)}>
-                            <CardContent>
-                                <FitnessCenterIcon sx={{ height: "100px", width: "100px", color: "white" }} />
-                                <Typography variant="h4" color="white" gutterBottom>
-                                    {item}
-                                </Typography>
-                            </CardContent>
-                            <CardActions>
-                                <Button size="small" sx={{color:'white'}}>click to learn more</Button>
-                            </CardActions>
-                        </Card>
-                    </div>
-                ))}
-            </Carousel>
-        </Box>
+        <>
+            <Link to='#searchExercises' style={{ textDecoration: 'none' }} scroll={props.scrollstyle}>
+                <Box>
+                    <Carousel responsive={responsive}>
+                        {Array.isArray(props.regions) && props.regions.map((item, index) => (
+                            <div key={index}>
+                                <Card sx={{
+                                    minWidth: 200, backgroundColor: "#378CE7", margin: "5px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", cursor: "pointer",
+                                    transitionDuration: '.5s',
+                                    '&:hover': {
+                                        transform: 'translateY(-5px)',
+                                        cursor: 'pointer',
+                                    },
+                                }} onClick={() => handleCarouselClick(item)}>
+                                    <CardContent>
+                                        <FitnessCenterIcon sx={{ height: "100px", width: "100px", color: "white" }} />
+                                        <Typography variant="h4" color="white" gutterBottom>
+                                            {item}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button size="small" sx={{ color: 'white' }}>click to learn more</Button>
+                                    </CardActions>
+                                </Card>
+                            </div>
+                        ))}
+                    </Carousel>
+                </Box>
+            </Link>
+        </>
+
     );
 }
 
